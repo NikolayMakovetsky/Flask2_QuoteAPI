@@ -40,6 +40,11 @@ def edit_author(author_id):
     return {"Error": "New author name is not defined"}, 404
 
 
-@app.route('/authors/<int:author_id>', methods=["PUT"])
-def delete_author(quote_id):
-    raise NotImplemented("Метод не реализован")
+@app.route('/authors/<int:author_id>', methods=["DELETE"])
+def delete_author(author_id):
+    author = AuthorModel.query.get(author_id)
+    if not author:
+        return f"Author id={author_id} not found", 404
+    db.session.delete(author)
+    db.session.commit()
+    return f"Author id={author_id} deleted", 200
