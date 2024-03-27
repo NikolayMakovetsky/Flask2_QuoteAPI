@@ -42,6 +42,9 @@ def edit_author(author_id):
 
 @app.route('/authors/<int:author_id>', methods=["DELETE"])
 def delete_author(author_id):
+    """Функция предназначена для удаления автора если у него нет цитат,
+    в противном случае удаление автора приведет к ошибке
+    при обращении к цитатам с удаленным автором"""
     author = AuthorModel.query.get(author_id)
     if not author:
         return f"Author id={author_id} not found", 404
