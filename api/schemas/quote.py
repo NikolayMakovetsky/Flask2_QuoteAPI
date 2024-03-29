@@ -7,10 +7,10 @@ class QuoteSchema(ma.SQLAlchemySchema):
     class Meta:
         model = QuoteModel
 
-        id = ma.auto_field()
-        quote = ma.auto_field()
-        author = ma.Nested(AuthorSchema())
-        # Описываем параметры, т.к. используется ОБЫЧНАЯ схема
+    id = ma.auto_field()
+    quote = ma.auto_field()
+    author = ma.Nested(AuthorSchema())
+    # Описываем параметры, т.к. используется ОБЫЧНАЯ схема
 
 quote_schema = QuoteSchema()
 quotes_schema = QuoteSchema(many=True)
