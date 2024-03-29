@@ -30,14 +30,18 @@ def create_author():
 @app.route('/authors/<int:author_id>', methods=["PUT"])
 def edit_author(author_id):
     author_data = request.json
-    if author_data.get("name"):
+    # добавить более компактную валидацию
+    # if {author_data.keys} == {"name", "surname"}:
+    if author_data.get("name") and author_data.get("surname"):
+
         author = AuthorModel.query.get(author_id)
         if author is None:
             return {"Error": f"Author id={author_id} not found"}, 404
-        author.name = author_data["name"]
+        for key, value in author_data.items():
+            setattr(author, key, value)      
         db.session.commit()
         return author_schema.dump(author), 200
-    return {"Error": "New author name is not defined"}, 404
+    return {"Error": "Missing parameter (name, surname)"}, 404
 
 
 @app.route('/authors/<int:author_id>', methods=["DELETE"])
